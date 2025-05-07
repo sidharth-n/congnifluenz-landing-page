@@ -24,9 +24,10 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
-            className="text-white text-4xl md:text-5xl lg:text-6xl mb-10 md:mb-12 font-extralight tracking-wide"
+            className="text-white text-4xl md:text-6xl lg:text-7xl mb-10 md:mb-12 font-light tracking-tight leading-tight"
           >
-            Intelligent algorithms for deep problems
+            Intelligent algorithms
+            <br className="hidden sm:block" /> for deep problems
           </motion.h2>
 
           <div className="flex flex-col items-center">
@@ -34,17 +35,25 @@ const HeroSection = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.8 }}
-              className="text-white font-mono tracking-wider mb-12 md:mb-16 text-sm md:text-base"
+              className="inline-flex items-center px-6 py-2 bg-opacity-10 backdrop-blur-sm bg-white rounded-full mb-12 md:mb-16"
             >
-              AI • COMPUTER VISION • SIGNAL PROCESSING
+              <span className="text-white font-mono tracking-wider text-sm md:text-base">
+                <span className="text-accent font-medium">AI</span> •{" "}
+                <span className="text-blue-300">COMPUTER VISION</span> •{" "}
+                <span className="text-cyan-300">SIGNAL PROCESSING</span>
+              </span>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 1.3 }}
+              className="transform hover:scale-105 transition-transform duration-300"
             >
-              <Link to="/contact" className="btn-accent">
+              <Link
+                to="/contact"
+                className="btn-accent py-3 px-8 text-lg font-medium shadow-lg shadow-accent/20 hover:shadow-accent/40 transition-shadow"
+              >
                 Request Demo
               </Link>
             </motion.div>
@@ -63,6 +72,7 @@ const HeroSection = () => {
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
+          className="bg-opacity-20 backdrop-blur-sm bg-white rounded-full p-2 hover:bg-opacity-30 transition-all"
         >
           <ChevronDown size={32} className="text-white" />
         </motion.div>

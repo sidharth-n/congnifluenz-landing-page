@@ -38,7 +38,28 @@ const ContactPage = () => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
+    // Create email body
+    const emailBody = `
+      Name: ${formData.name}
+      Email: ${formData.email}
+      Phone: ${formData.phone}
+      Company: ${formData.company}
+      Industry: ${formData.industry}
+      Interest: ${formData.interest}
+      Source: ${formData.source}
+      Message: ${formData.message}
+    `
+
+    // Prepare mailto URL (this will open the user's email client)
+    const mailtoUrl = `mailto:ceo@cognifluenz.com?subject=Contact Form Submission from ${encodeURIComponent(
+      formData.name
+    )}&body=${encodeURIComponent(emailBody)}`
+
+    // In a production site, you'd likely use a service like EmailJS, Formspree, or a backend API
+    // This is a simple approach that will open the user's email client
+    window.open(mailtoUrl)
+
+    // Show success message and reset form
     setTimeout(() => {
       setIsSubmitting(false)
       setIsSubmitted(true)
@@ -57,7 +78,7 @@ const ContactPage = () => {
       setTimeout(() => {
         setIsSubmitted(false)
       }, 5000)
-    }, 1500)
+    }, 1000)
   }
 
   const faqs = [
@@ -105,49 +126,23 @@ const ContactPage = () => {
         subtitle="Have questions about our technology or interested in exploring how our solutions can address your challenges? We'd love to hear from you."
       />
 
-      {/* Hero Section */}
-      <section className="pt-24 bg-gradient-primary">
-        <div className="container-custom py-16 lg:py-24">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-white mb-6"
-            >
-              Contact Us
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl text-gray-100 leading-relaxed mb-8"
-            >
-              Have questions about our technology or interested in exploring how
-              our solutions can address your challenges? We'd love to hear from
-              you.
-            </motion.p>
-          </div>
-        </div>
+      {/* Wave divider for consistency with other pages */}
+      <div className="relative bg-gradient-primary h-16">
+        <svg
+          className="absolute bottom-0 w-full h-16"
+          viewBox="0 0 1440 74"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 24.6667L60 24.6667C120 24.6667 240 24.6667 360 19.3333C480 13.5333 600 2.66667 720 16.6667C840 30.6667 960 69.3333 1080 74.6667C1200 80 1320 52 1380 38L1440 24.6667V74.6667H1380C1320 74.6667 1200 74.6667 1080 74.6667C960 74.6667 840 74.6667 720 74.6667C600 74.6667 480 74.6667 360 74.6667C240 74.6667 120 74.6667 60 74.6667H0V24.6667Z"
+            fill="#F8F8FF"
+          />
+        </svg>
+      </div>
 
-        {/* Wave divider */}
-        <div className="relative h-16">
-          <svg
-            className="absolute bottom-0 w-full h-16"
-            viewBox="0 0 1440 74"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 24.6667L60 24.6667C120 24.6667 240 24.6667 360 19.3333C480 13.5333 600 2.66667 720 16.6667C840 30.6667 960 69.3333 1080 74.6667C1200 80 1320 52 1380 38L1440 24.6667V74.6667H1380C1320 74.6667 1200 74.6667 1080 74.6667C960 74.6667 840 74.6667 720 74.6667C600 74.6667 480 74.6667 360 74.6667C240 74.6667 120 74.6667 60 74.6667H0V24.6667Z"
-              fill="#F8F8FF"
-            />
-          </svg>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="py-16 bg-background">
+      {/* Contact Section - adjust top padding */}
+      <section className="py-20 bg-background">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}

@@ -36,7 +36,24 @@ const ContactSection = () => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
+    // Create email body
+    const emailBody = `
+      Name: ${formData.name}
+      Email: ${formData.email}
+      Company: ${formData.company}
+      Product Interest: ${formData.product}
+      Message: ${formData.message}
+    `
+
+    // Prepare mailto URL
+    const mailtoUrl = `mailto:ceo@cognifluenz.com?subject=Home Page Contact Form&body=${encodeURIComponent(
+      emailBody
+    )}`
+
+    // Open the user's email client
+    window.open(mailtoUrl)
+
+    // Show success message and reset form
     setTimeout(() => {
       setIsSubmitting(false)
       setIsSubmitted(true)
@@ -52,7 +69,7 @@ const ContactSection = () => {
       setTimeout(() => {
         setIsSubmitted(false)
       }, 5000)
-    }, 1500)
+    }, 1000)
   }
 
   return (

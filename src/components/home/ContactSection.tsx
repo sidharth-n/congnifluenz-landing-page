@@ -1,61 +1,65 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { useState } from "react"
+import { motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
+import { Mail, Phone, MapPin, Send } from "lucide-react"
 
 const ContactSection = () => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
-  });
-  
+  })
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    product: '',
-    message: '',
-  });
-  
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    name: "",
+    email: "",
+    company: "",
+    product: "",
+    message: "",
+  })
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
       [name]: value,
-    }));
-  };
-  
+    }))
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
+    e.preventDefault()
+    setIsSubmitting(true)
+
     // Simulate form submission
     setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
+      setIsSubmitting(false)
+      setIsSubmitted(true)
       setFormData({
-        name: '',
-        email: '',
-        company: '',
-        product: '',
-        message: '',
-      });
-      
+        name: "",
+        email: "",
+        company: "",
+        product: "",
+        message: "",
+      })
+
       // Reset success message after 5 seconds
       setTimeout(() => {
-        setIsSubmitted(false);
-      }, 5000);
-    }, 1500);
-  };
-  
+        setIsSubmitted(false)
+      }, 5000)
+    }, 1500)
+  }
+
   return (
     <section className="section-padding bg-gradient-primary text-white">
       <div className="container-custom">
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
@@ -69,14 +73,12 @@ const ContactSection = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-gray-100"
           >
-            Have questions about our technology or interested in a demo? Contact us today.
+            Have questions about our technology or interested in a demo? Contact
+            us today.
           </motion.p>
         </div>
-        
-        <div 
-          ref={ref}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12"
-        >
+
+        <div ref={ref} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -98,10 +100,16 @@ const ContactSection = () => {
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-8">
+              <form
+                onSubmit={handleSubmit}
+                className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-8"
+              >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label htmlFor="name" className="block mb-2 text-sm font-medium">
+                    <label
+                      htmlFor="name"
+                      className="block mb-2 text-sm font-medium"
+                    >
                       Your Name
                     </label>
                     <input
@@ -116,7 +124,10 @@ const ContactSection = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block mb-2 text-sm font-medium">
+                    <label
+                      htmlFor="email"
+                      className="block mb-2 text-sm font-medium"
+                    >
                       Your Email
                     </label>
                     <input
@@ -131,10 +142,13 @@ const ContactSection = () => {
                     />
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label htmlFor="company" className="block mb-2 text-sm font-medium">
+                    <label
+                      htmlFor="company"
+                      className="block mb-2 text-sm font-medium"
+                    >
                       Company
                     </label>
                     <input
@@ -148,7 +162,10 @@ const ContactSection = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="product" className="block mb-2 text-sm font-medium">
+                    <label
+                      htmlFor="product"
+                      className="block mb-2 text-sm font-medium"
+                    >
                       Interested In
                     </label>
                     <select
@@ -158,17 +175,30 @@ const ContactSection = () => {
                       onChange={handleChange}
                       className="w-full px-4 py-2 bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent"
                     >
-                      <option value="" className="bg-gray-800">Select a product</option>
-                      <option value="neurostream" className="bg-gray-800">NeuroStream AI™</option>
-                      <option value="skyvision" className="bg-gray-800">SkyVision 3D™</option>
-                      <option value="spectracore" className="bg-gray-800">SpectraCore AI™</option>
-                      <option value="general" className="bg-gray-800">General Inquiry</option>
+                      <option value="" className="bg-gray-800">
+                        Select a product
+                      </option>
+                      <option value="neurostream" className="bg-gray-800">
+                        NeuroStream AI™
+                      </option>
+                      <option value="skyvision" className="bg-gray-800">
+                        SkyVision 3D™
+                      </option>
+                      <option value="spectracore" className="bg-gray-800">
+                        SpectraCore AI™
+                      </option>
+                      <option value="general" className="bg-gray-800">
+                        General Inquiry
+                      </option>
                     </select>
                   </div>
                 </div>
-                
+
                 <div className="mb-6">
-                  <label htmlFor="message" className="block mb-2 text-sm font-medium">
+                  <label
+                    htmlFor="message"
+                    className="block mb-2 text-sm font-medium"
+                  >
                     Message
                   </label>
                   <textarea
@@ -182,19 +212,35 @@ const ContactSection = () => {
                     placeholder="How can we help you?"
                   ></textarea>
                 </div>
-                
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   className={`btn-accent w-full flex items-center justify-center ${
-                    isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                    isSubmitting ? "opacity-70 cursor-not-allowed" : ""
                   }`}
                 >
                   {isSubmitting ? (
                     <>
-                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-primary-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="animate-spin -ml-1 mr-2 h-4 w-4 text-primary-dark"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                       </svg>
                       Sending...
                     </>
@@ -208,7 +254,7 @@ const ContactSection = () => {
               </form>
             )}
           </motion.div>
-          
+
           {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
@@ -218,40 +264,63 @@ const ContactSection = () => {
           >
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-              
+
               <ul className="space-y-5">
                 <li className="flex items-start">
-                  <Mail className="mt-1 text-accent mr-4 flex-shrink-0" size={20} />
+                  <Mail
+                    className="mt-1 text-accent mr-4 flex-shrink-0"
+                    size={20}
+                  />
                   <div>
                     <p className="font-medium mb-1">Email Us</p>
-                    <a href="mailto:info@cognifluenz.tech" className="text-gray-200 hover:text-accent transition-colors">
-                      info@cognifluenz.tech
+                    <a
+                      href="mailto:ceo@cognifluenz.com"
+                      className="text-gray-200 hover:text-accent transition-colors"
+                    >
+                      ceo@cognifluenz.com
                     </a>
                   </div>
                 </li>
                 <li className="flex items-start">
-                  <Phone className="mt-1 text-accent mr-4 flex-shrink-0" size={20} />
+                  <Phone
+                    className="mt-1 text-accent mr-4 flex-shrink-0"
+                    size={20}
+                  />
                   <div>
                     <p className="font-medium mb-1">Call Us</p>
-                    <a href="tel:+1234567890" className="text-gray-200 hover:text-accent transition-colors">
-                      +1 (234) 567-890
+                    <a
+                      href="tel:+919495303940"
+                      className="text-gray-200 hover:text-accent transition-colors block"
+                    >
+                      +91 9495 303 940
+                    </a>
+                    <a
+                      href="tel:+918075589978"
+                      className="text-gray-200 hover:text-accent transition-colors block"
+                    >
+                      +91 8075 589 978
                     </a>
                   </div>
                 </li>
                 <li className="flex items-start">
-                  <MapPin className="mt-1 text-accent mr-4 flex-shrink-0" size={20} />
+                  <MapPin
+                    className="mt-1 text-accent mr-4 flex-shrink-0"
+                    size={20}
+                  />
                   <div>
                     <p className="font-medium mb-1">Visit Us</p>
                     <address className="text-gray-200 not-italic">
-                      123 Tech Avenue<br />
-                      Innovation District<br />
-                      San Francisco, CA 94103
+                      TC 17/2962/1, Jetavana, PLRA 25B,
+                      <br />
+                      Panachamoodu Lane, Pattom,
+                      <br />
+                      Thiruvananthapuram, Kerala, India 695004
                     </address>
                   </div>
                 </li>
               </ul>
             </div>
-            
+
             <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
               <h4 className="text-xl font-bold mb-3">Working Hours</h4>
               <ul className="space-y-2">
@@ -273,7 +342,7 @@ const ContactSection = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ContactSection;
+export default ContactSection

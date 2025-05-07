@@ -105,23 +105,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Products */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Our Products</h4>
-            <ul className="space-y-2">
-              {products.map(product => (
-                <li key={product.id}>
-                  <Link
-                    to={`/products/${product.id}`}
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    {product.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Contact */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>

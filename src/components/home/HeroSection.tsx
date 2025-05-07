@@ -18,25 +18,13 @@ const HeroSection = () => {
         style={{ zIndex: 10 }}
       >
         <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="mb-4"
-          >
-            <h1 className="text-white inline-block mr-2 md:mr-3">
-              Cognifluenz
-            </h1>
-            <span className="text-accent font-montserrat text-2xl md:text-3xl">
-              deeptech
-            </span>
-          </motion.div>
+          {/* Main title is commented out as requested */}
 
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
-            className="text-white text-xl md:text-3xl mb-8 md:mb-10 font-medium"
+            className="text-white text-4xl md:text-5xl lg:text-6xl mb-10 md:mb-12 font-extralight tracking-wide"
           >
             Intelligent algorithms for deep problems
           </motion.h2>
@@ -46,7 +34,7 @@ const HeroSection = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.8 }}
-              className="text-white font-mono tracking-wider mb-10 md:mb-12"
+              className="text-white font-mono tracking-wider mb-12 md:mb-16 text-sm md:text-base"
             >
               AI • COMPUTER VISION • SIGNAL PROCESSING
             </motion.div>

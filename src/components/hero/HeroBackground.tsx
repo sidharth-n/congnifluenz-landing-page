@@ -9,34 +9,43 @@ const HeroBackground = () => {
   useEffect(() => {
     if (!containerRef.current) return
 
+    // Detect if device is mobile
+    const isMobile = window.innerWidth < 768
+
     // Set up scene
     const scene = new THREE.Scene()
 
-    // Set up camera
+    // Set up camera with different FOV for mobile
     const camera = new THREE.PerspectiveCamera(
-      75,
+      isMobile ? 60 : 75,
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     )
-    camera.position.z = 20
+    // Position camera based on device
+    camera.position.z = isMobile ? 30 : 20
 
     // Set up renderer with correct size
     const renderer = new THREE.WebGLRenderer({
-      antialias: true,
+      antialias: !isMobile, // Disable antialiasing on mobile for better performance
       alpha: true,
     })
 
     // Use window dimensions to ensure full coverage
     renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.setPixelRatio(window.devicePixelRatio)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)) // Limit pixel ratio for better performance
 
     // Make background darker and more visible
     renderer.setClearColor(0x050a14, 0.95)
     containerRef.current.appendChild(renderer.domElement)
 
-    // Create wave geometry (make larger and more detailed)
-    const waveGeometry = new THREE.PlaneGeometry(150, 150, 75, 75)
+    // Create wave geometry - smaller and less detailed on mobile
+    const waveGeometry = new THREE.PlaneGeometry(
+      isMobile ? 200 : 150,
+      isMobile ? 200 : 150,
+      isMobile ? 35 : 75,
+      isMobile ? 35 : 75
+    )
     const waveMaterial = new THREE.MeshBasicMaterial({
       color: 0x4dbaff,
       wireframe: true,
@@ -48,8 +57,12 @@ const HeroBackground = () => {
     waveMesh.position.y = -10
     scene.add(waveMesh)
 
-    // Create spherical particles instead of points
-    const sphereGeometry = new THREE.SphereGeometry(0.15, 8, 8)
+    // Create spherical particles - fewer on mobile
+    const sphereGeometry = new THREE.SphereGeometry(
+      isMobile ? 0.25 : 0.15,
+      isMobile ? 6 : 8,
+      isMobile ? 6 : 8
+    )
     const sphereMaterial = new THREE.MeshBasicMaterial({
       color: 0x4dbaff,
       transparent: true,
@@ -60,18 +73,18 @@ const HeroBackground = () => {
     const particlesGroup = new THREE.Group()
     scene.add(particlesGroup)
 
-    // Create individual sphere instances
-    const particlesCount = 400 // Reduced count since spheres are more expensive to render
-    const spherePositions = [] // Renamed to avoid conflict
+    // Create individual sphere instances - fewer on mobile
+    const particlesCount = isMobile ? 200 : 400
+    const spherePositions = []
     const spheres = []
 
     for (let i = 0; i < particlesCount; i++) {
       const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial.clone())
 
       // Random position
-      const x = (Math.random() - 0.5) * 120
-      const y = (Math.random() - 0.5) * 120
-      const z = (Math.random() - 0.5) * 120
+      const x = (Math.random() - 0.5) * (isMobile ? 150 : 120)
+      const y = (Math.random() - 0.5) * (isMobile ? 150 : 120)
+      const z = (Math.random() - 0.5) * (isMobile ? 150 : 120)
 
       sphere.position.set(x, y, z)
 
@@ -95,10 +108,11 @@ const HeroBackground = () => {
       }
     }
 
-    // Touch handler for mobile
+    // Touch handler for mobile - modified to not interfere with scrolling
     const handleTouchMove = event => {
       if (event.touches.length > 0) {
-        event.preventDefault()
+        // Don't prevent default to allow scrolling
+        // Only use the touch event to update the mouse position
         mousePosition.current = {
           x: (event.touches[0].clientX / window.innerWidth) * 2 - 1,
           y: -(event.touches[0].clientY / window.innerHeight) * 2 + 1,
@@ -107,34 +121,39 @@ const HeroBackground = () => {
     }
 
     window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("touchmove", handleTouchMove, { passive: false })
+    window.addEventListener("touchmove", handleTouchMove, { passive: true }) // Use passive listener to improve scroll performance
 
     // Animation function
     const animate = () => {
       const time = Date.now() * 0.001
+      // Reduce animation speed on mobile
+      const speedFactor = isMobile ? 0.5 : 1
 
       // Animate wave based on mouse position
       const wavePositions = waveMesh.geometry.attributes.position
-      const mouseInfluence = 1.5
+      const mouseInfluence = isMobile ? 1 : 1.5
 
       for (let i = 0; i < wavePositions.count; i++) {
         const x = wavePositions.getX(i)
         const y = wavePositions.getY(i)
 
-        // Apply base wave animation
-        let z = Math.sin(x * 0.05 + time) * 4
-        z += Math.cos(y * 0.05 + time) * 4
+        // Apply base wave animation - slower on mobile
+        let z = Math.sin(x * 0.05 + time * speedFactor) * 4
+        z += Math.cos(y * 0.05 + time * speedFactor) * 4
 
         // Add mouse influence on wave
-        const distanceX = (x / 150) * 2 - mousePosition.current.x
-        const distanceY = (y / 150) * 2 - mousePosition.current.y
+        const distanceX =
+          (x / (isMobile ? 200 : 150)) * 2 - mousePosition.current.x
+        const distanceY =
+          (y / (isMobile ? 200 : 150)) * 2 - mousePosition.current.y
         const distance = Math.sqrt(
           distanceX * distanceX + distanceY * distanceY
         )
 
         // Create a ripple effect where mouse is pointing
         if (distance < 1) {
-          z += (1 - distance) * mouseInfluence * Math.sin(time * 5)
+          z +=
+            (1 - distance) * mouseInfluence * Math.sin(time * 5 * speedFactor)
         }
 
         wavePositions.setZ(i, z)
@@ -142,15 +161,18 @@ const HeroBackground = () => {
 
       wavePositions.needsUpdate = true
 
-      // Animate spheres with interaction
+      // Animate spheres with interaction - slower on mobile
       spheres.forEach((sphere, i) => {
         // Use the correct stored positions array
         const originalPos = spherePositions[i]
 
         // Gentle floating movement
-        sphere.position.x = originalPos.x + Math.sin(time + i * 0.1) * 0.5
-        sphere.position.y = originalPos.y + Math.cos(time + i * 0.1) * 0.5
-        sphere.position.z = originalPos.z + Math.sin(time * 0.5 + i * 0.1) * 0.5
+        sphere.position.x =
+          originalPos.x + Math.sin(time * speedFactor + i * 0.1) * 0.5
+        sphere.position.y =
+          originalPos.y + Math.cos(time * speedFactor + i * 0.1) * 0.5
+        sphere.position.z =
+          originalPos.z + Math.sin(time * speedFactor * 0.5 + i * 0.1) * 0.5
 
         // Subtle attraction to mouse position
         const mouseVector = new THREE.Vector3(
@@ -167,16 +189,16 @@ const HeroBackground = () => {
 
         // Only affect nearby particles
         if (mouseDistance < 30) {
-          const strength = (1 - mouseDistance / 30) * 0.05
+          const strength = (1 - mouseDistance / 30) * 0.05 * speedFactor
           sphere.position.x += direction.x * strength
           sphere.position.y += direction.y * strength
           sphere.position.z += direction.z * strength
         }
       })
 
-      // Rotate entire particle group
-      particlesGroup.rotation.y += 0.0005
-      particlesGroup.rotation.x += 0.0002
+      // Rotate entire particle group - slower on mobile
+      particlesGroup.rotation.y += 0.0005 * speedFactor
+      particlesGroup.rotation.x += 0.0002 * speedFactor
 
       renderer.render(scene, camera)
       animationRef.current = requestAnimationFrame(animate)
@@ -186,9 +208,17 @@ const HeroBackground = () => {
 
     // Handle window resize
     const handleResize = () => {
-      // Use window dimensions directly
+      const newIsMobile = window.innerWidth < 768
+
+      // Update camera
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
+
+      // Update camera position if device type changes
+      if (newIsMobile !== isMobile) {
+        camera.position.z = newIsMobile ? 30 : 20
+      }
+
       renderer.setSize(window.innerWidth, window.innerHeight)
     }
 
@@ -230,7 +260,8 @@ const HeroBackground = () => {
         height: "100%",
         zIndex: 0,
         overflow: "hidden",
-        pointerEvents: "none",
+        pointerEvents: "auto", // Changed to "auto" to allow clicks but handled properly in touch events
+        touchAction: "pan-y", // Allow vertical scrolling
       }}
     />
   )

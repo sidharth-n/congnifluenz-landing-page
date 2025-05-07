@@ -121,9 +121,9 @@ const TeamSection = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="text-center mt-12"
         >
-          <Link to="/team" className="btn-outline">
+          {/*   <Link to="/team" className="btn-outline">
             Meet the Full Team
-          </Link>
+          </Link> */}
         </motion.div>
       </div>
     </section>

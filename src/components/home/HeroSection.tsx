@@ -38,7 +38,7 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 0.3 }}
             className="text-white text-xl md:text-3xl mb-8 md:mb-10 font-medium"
           >
-            Intelligent algorithms to solve deep problems
+            Intelligent algorithms for deep problems
           </motion.h2>
 
           <div className="flex flex-col items-center">

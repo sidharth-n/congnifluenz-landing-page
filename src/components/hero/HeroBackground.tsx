@@ -5,14 +5,39 @@ const HeroBackground = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<number>()
   const mousePosition = useRef({ x: 0, y: 0 })
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
 
+    // Create and set up video element
+    const video = document.createElement("video")
+    video.src = "/bg_video.mp4"
+    video.loop = true
+    video.muted = true
+    video.playsInline = true
+    video.autoplay = true
+    video.className =
+      "absolute inset-0 w-full h-full object-cover z-0 opacity-60"
+    video.style.filter = "brightness(0.7) contrast(1.1)"
+    containerRef.current.appendChild(video)
+
+    // Force video to play without user interaction
+    video.play().catch(error => {
+      console.log("Video autoplay failed:", error)
+      // Just try again - many browsers will allow it on the second attempt
+      setTimeout(() => {
+        video.play().catch(() => {
+          console.log("Video still cannot play automatically")
+        })
+      }, 100)
+    })
+    videoRef.current = video
+
     // Detect if device is mobile
     const isMobile = window.innerWidth < 768
 
-    // Set up scene
+    // Set up scene for wave effect only
     const scene = new THREE.Scene()
 
     // Set up camera with different FOV for mobile
@@ -35,9 +60,13 @@ const HeroBackground = () => {
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)) // Limit pixel ratio for better performance
 
-    // Make background darker and more visible
-    renderer.setClearColor(0x050a14, 0.95)
-    containerRef.current.appendChild(renderer.domElement)
+    // Make background transparent to show video behind
+    renderer.setClearColor(0x000000, 0)
+
+    const rendererContainer = document.createElement("div")
+    rendererContainer.className = "absolute inset-0 z-10"
+    containerRef.current.appendChild(rendererContainer)
+    rendererContainer.appendChild(renderer.domElement)
 
     // Create wave geometry - smaller and less detailed on mobile
     const waveGeometry = new THREE.PlaneGeometry(
@@ -56,48 +85,6 @@ const HeroBackground = () => {
     waveMesh.rotation.x = -Math.PI / 2
     waveMesh.position.y = -10
     scene.add(waveMesh)
-
-    // Create spherical particles - fewer on mobile
-    const sphereGeometry = new THREE.SphereGeometry(
-      isMobile ? 0.25 : 0.15,
-      isMobile ? 6 : 8,
-      isMobile ? 6 : 8
-    )
-    const sphereMaterial = new THREE.MeshBasicMaterial({
-      color: 0x4dbaff,
-      transparent: true,
-      opacity: 0.8,
-    })
-
-    // Create a group to hold all spheres
-    const particlesGroup = new THREE.Group()
-    scene.add(particlesGroup)
-
-    // Create individual sphere instances - fewer on mobile
-    const particlesCount = isMobile ? 200 : 400
-    const spherePositions = []
-    const spheres = []
-
-    for (let i = 0; i < particlesCount; i++) {
-      const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial.clone())
-
-      // Random position
-      const x = (Math.random() - 0.5) * (isMobile ? 150 : 120)
-      const y = (Math.random() - 0.5) * (isMobile ? 150 : 120)
-      const z = (Math.random() - 0.5) * (isMobile ? 150 : 120)
-
-      sphere.position.set(x, y, z)
-
-      // Store original position for animation
-      spherePositions.push({ x, y, z })
-
-      // Random scale for variety
-      const scale = Math.random() * 0.5 + 0.5
-      sphere.scale.set(scale, scale, scale)
-
-      particlesGroup.add(sphere)
-      spheres.push(sphere)
-    }
 
     // Handle mouse/touch movement
     const handleMouseMove = event => {
@@ -123,7 +110,7 @@ const HeroBackground = () => {
     window.addEventListener("mousemove", handleMouseMove)
     window.addEventListener("touchmove", handleTouchMove, { passive: true }) // Use passive listener to improve scroll performance
 
-    // Animation function
+    // Animation function - only animates the wave now
     const animate = () => {
       const time = Date.now() * 0.001
       // Reduce animation speed on mobile
@@ -161,45 +148,6 @@ const HeroBackground = () => {
 
       wavePositions.needsUpdate = true
 
-      // Animate spheres with interaction - slower on mobile
-      spheres.forEach((sphere, i) => {
-        // Use the correct stored positions array
-        const originalPos = spherePositions[i]
-
-        // Gentle floating movement
-        sphere.position.x =
-          originalPos.x + Math.sin(time * speedFactor + i * 0.1) * 0.5
-        sphere.position.y =
-          originalPos.y + Math.cos(time * speedFactor + i * 0.1) * 0.5
-        sphere.position.z =
-          originalPos.z + Math.sin(time * speedFactor * 0.5 + i * 0.1) * 0.5
-
-        // Subtle attraction to mouse position
-        const mouseVector = new THREE.Vector3(
-          mousePosition.current.x * 20,
-          mousePosition.current.y * 20,
-          0
-        )
-
-        const direction = new THREE.Vector3()
-        direction.subVectors(mouseVector, sphere.position).normalize()
-
-        // Calculate distance to mouse
-        const mouseDistance = sphere.position.distanceTo(mouseVector)
-
-        // Only affect nearby particles
-        if (mouseDistance < 30) {
-          const strength = (1 - mouseDistance / 30) * 0.05 * speedFactor
-          sphere.position.x += direction.x * strength
-          sphere.position.y += direction.y * strength
-          sphere.position.z += direction.z * strength
-        }
-      })
-
-      // Rotate entire particle group - slower on mobile
-      particlesGroup.rotation.y += 0.0005 * speedFactor
-      particlesGroup.rotation.x += 0.0002 * speedFactor
-
       renderer.render(scene, camera)
       animationRef.current = requestAnimationFrame(animate)
     }
@@ -228,9 +176,16 @@ const HeroBackground = () => {
     return () => {
       if (
         containerRef.current &&
-        containerRef.current.contains(renderer.domElement)
+        containerRef.current.contains(rendererContainer)
       ) {
-        containerRef.current.removeChild(renderer.domElement)
+        containerRef.current.removeChild(rendererContainer)
+      }
+
+      if (
+        videoRef.current &&
+        containerRef.current?.contains(videoRef.current)
+      ) {
+        containerRef.current.removeChild(videoRef.current)
       }
 
       window.removeEventListener("resize", handleResize)
@@ -244,8 +199,6 @@ const HeroBackground = () => {
       // Dispose geometries and materials
       waveGeometry.dispose()
       waveMaterial.dispose()
-      sphereGeometry.dispose()
-      sphereMaterial.dispose()
     }
   }, [])
 
@@ -260,7 +213,7 @@ const HeroBackground = () => {
         height: "100%",
         zIndex: 0,
         overflow: "hidden",
-        pointerEvents: "auto", // Changed to "auto" to allow clicks but handled properly in touch events
+        pointerEvents: "auto",
         touchAction: "pan-y", // Allow vertical scrolling
       }}
     />

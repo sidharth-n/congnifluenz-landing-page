@@ -6,9 +6,36 @@ import HeroBackground from "../hero/HeroBackground"
 const HeroSection = () => {
   // Function to scroll to products section
   const scrollToProducts = () => {
+    // Try to find the products section by ID
     const productsSection = document.getElementById("products-section")
+
     if (productsSection) {
       productsSection.scrollIntoView({ behavior: "smooth" })
+    } else {
+      // If the element isn't found by ID, try to find it by a class or other means
+      // This is a fallback in case the ID isn't correctly set
+      const sections = document.querySelectorAll("section")
+      let productSectionFound = false
+
+      sections.forEach(section => {
+        if (
+          section
+            .querySelector("h2")
+            ?.textContent?.toLowerCase()
+            .includes("product")
+        ) {
+          section.scrollIntoView({ behavior: "smooth" })
+          productSectionFound = true
+        }
+      })
+
+      // If we still can't find it, just scroll down a bit
+      if (!productSectionFound) {
+        window.scrollTo({
+          top: window.innerHeight,
+          behavior: "smooth",
+        })
+      }
     }
   }
 
@@ -87,12 +114,7 @@ const HeroSection = () => {
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
           className="bg-opacity-20 backdrop-blur-sm bg-white rounded-full p-2 hover:bg-opacity-30 transition-all cursor-pointer"
-          onClick={() => {
-            const productsSection = document.getElementById("products-section")
-            if (productsSection) {
-              productsSection.scrollIntoView({ behavior: "smooth" })
-            }
-          }}
+          onClick={scrollToProducts}
         >
           <ChevronDown size={28} className="text-white" />
         </motion.div>

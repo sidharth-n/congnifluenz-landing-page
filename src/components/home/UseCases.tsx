@@ -16,8 +16,7 @@ const useCases = [
     icon: <Building2 size={32} className="text-primary" />,
     description:
       "AI video analytics helps cities improve traffic flow, enhance public safety, and optimize resource allocation through intelligent monitoring and analysis.",
-    image:
-      "https://images.pexels.com/photos/2767814/pexels-photo-2767814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    image: "/images/smart_city.jpg",
   },
   {
     id: "healthcare",
@@ -25,8 +24,7 @@ const useCases = [
     icon: <Heart size={32} className="text-primary" />,
     description:
       "Signal processing technology enables more accurate diagnostic imaging, patient monitoring, and medical data analysis for improved healthcare outcomes.",
-    image:
-      "https://images.pexels.com/photos/4226122/pexels-photo-4226122.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    image: "/images/healthcare.jpg",
   },
   {
     id: "autonomous",
@@ -34,8 +32,7 @@ const useCases = [
     icon: <Car size={32} className="text-primary" />,
     description:
       "Computer vision and AI systems provide real-time environmental perception and decision-making capabilities for safer autonomous transportation.",
-    image:
-      "https://images.pexels.com/photos/2244746/pexels-photo-2244746.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    image: "/images/autonomous_vehicles.jpg",
   },
   {
     id: "retail",
@@ -61,8 +58,7 @@ const useCases = [
     icon: <Factory size={32} className="text-primary" />,
     description:
       "Computer vision technology enables real-time quality control, predictive maintenance, and process optimization in manufacturing facilities.",
-    image:
-      "https://images.pexels.com/photos/257904/pexels-photo-257904.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    image: "/images/manufacturing.jpg",
   },
 ]
 
@@ -94,7 +90,7 @@ const UseCases = () => {
   }
 
   return (
-    <section className="section-padding bg-background">
+    <section id="products-section" className="section-padding bg-background">
       <div className="container-custom">
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
           <motion.h2

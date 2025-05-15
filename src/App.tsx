@@ -12,27 +12,29 @@ import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <Header />
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          {products.map(product => (
-            <Route
-              key={product.id}
-              path={`/products/${product.id}`}
-              element={<ProductPage productId={product.id} />}
-            />
-          ))}
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/team" element={<TeamPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-        </Routes>
-        <Analytics />
-      </main>
-      <Footer />
-    </Router>
+    <>
+      <Router>
+        <ScrollToTop />
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            {products.map(product => (
+              <Route
+                key={product.id}
+                path={`/products/${product.id}`}
+                element={<ProductPage productId={product.id} />}
+              />
+            ))}
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/team" element={<TeamPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </Router>{" "}
+      <Analytics />
+    </>
   )
 }
 

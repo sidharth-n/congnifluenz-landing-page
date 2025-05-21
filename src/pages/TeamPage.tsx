@@ -8,16 +8,10 @@ const seniorTeam = [
     id: 'rajeev',
     name: 'Rajeev Kumaraswamy',
     title: 'Founder & CEO',
-    bio: 'With over 30 years of experience in signal processing and computer vision, Rajeev has led groundbreaking research and development in intelligent algorithms across multiple industries. Before founding Cognifluenz, he held leadership positions at major tech companies and research institutions, where he pioneered several patented technologies that revolutionized how machines interpret complex data streams.',
-    image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    education: 'Ph.D. in Computer Engineering, MIT',
-    highlights: [
-      'Led development of award-winning signal processing algorithms',
-      'Author of 35+ research papers on AI and computer vision',
-      'Holds 12 patents in deep learning and signal analysis',
-    ],
+    bio: 'With over 30 years of experience in signal processing and computer vision, Rajeev has led groundbreaking research and development in intelligent algorithms across multiple industries.',
+    image: '/rajeev.jpeg',
     social: {
-      linkedin: 'https://linkedin.com',
+      linkedin: 'https://www.linkedin.com/in/rajeevkumaraswamy/',
       twitter: 'https://twitter.com',
       github: 'https://github.com',
     },
@@ -26,18 +20,12 @@ const seniorTeam = [
     id: 'sidharth',
     name: 'Sidharth N',
     title: 'Chief AI Manager',
-    bio: 'A recognized expert in machine learning and neural network optimization, Sidharth leads the development of our advanced AI systems with a focus on practical industry applications. His innovative approaches to neural architecture search and model optimization have significantly improved the efficiency and accuracy of our intelligent algorithms. Sidharth combines deep technical expertise with a keen understanding of client needs.',
-    image: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    education: 'Ph.D. in Artificial Intelligence, Stanford University',
-    highlights: [
-      'Pioneer in neural network compression techniques',
-      'Developed proprietary AI training methodologies',
-      'Former research scientist at leading AI lab',
-    ],
+    bio: 'A recognized expert in machine learning and neural network optimization, Sidharth leads the development of our advanced AI systems with a focus on practical industry applications.',
+    image: '/sid.png',
     social: {
-      linkedin: 'https://linkedin.com',
-      twitter: 'https://twitter.com',
-      github: 'https://github.com',
+      linkedin: 'https://www.linkedin.com/in/sidharth-n-52828b226',
+      twitter: 'https://x.com/sid_ai_dev',
+      github: 'https://github.com/sidharth-n',
     },
   },
 ];
@@ -185,7 +173,7 @@ const TeamPage = () => {
                     </div>
                     <h3 className="text-2xl font-bold mb-1">{member.name}</h3>
                     <p className="text-primary font-medium mb-3">{member.title}</p>
-                    <p className="text-gray-600 text-sm mb-4">{member.education}</p>
+                    {/* <p className="text-gray-600 text-sm mb-4">{member.education}</p> */}
                     
                     {/* Social media links */}
                     <div className="flex space-x-4">
@@ -222,7 +210,7 @@ const TeamPage = () => {
                       <p className="text-gray-700">{member.bio}</p>
                     </div>
                     
-                    <div>
+                    {/* <div>
                       <h4 className="text-lg font-semibold mb-2">Career Highlights</h4>
                       <ul className="space-y-2">
                         {member.highlights.map((highlight, idx) => (
@@ -232,7 +220,7 @@ const TeamPage = () => {
                           </li>
                         ))}
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </motion.div>
@@ -241,7 +229,8 @@ const TeamPage = () => {
         </div>
       </section>
       
-      {/* Core Team */}
+      {/* eslint-disable-next-line no-constant-condition */}
+      {false && (
       <section ref={coreRef} className="py-16 bg-gray-50">
         <div className="container-custom">
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -274,8 +263,8 @@ const TeamPage = () => {
               >
                 <div className="mb-4 relative">
                   <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-white shadow-sm">
-                    <img 
-                      src={member.image} 
+                    <img
+                      src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover"
                     />
@@ -285,9 +274,9 @@ const TeamPage = () => {
                 <p className="text-primary font-medium mb-3">{member.title}</p>
                 
                 {/* Social media link */}
-                <a 
-                  href={member.social.linkedin} 
-                  target="_blank" 
+                <a
+                  href={member.social.linkedin}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-500 hover:text-primary transition-colors"
                 >
@@ -298,7 +287,7 @@ const TeamPage = () => {
           </div>
         </div>
       </section>
-      
+      )}
       {/* Join Our Team */}
       <section className="py-16 bg-background">
         <div className="container-custom">
@@ -334,7 +323,7 @@ const TeamPage = () => {
                     </li>
                   </ul>
                 </div>
-                <a href="#" className="btn-primary">View Open Positions</a>
+                <a href="mailto:ceo@cognifluenz.com" className="btn-primary">Join Team</a>
               </div>
               <div className="bg-gradient-primary p-8 md:p-10 text-white flex flex-col justify-center">
                 <h3 className="text-xl font-bold mb-6">Employee Testimonials</h3>

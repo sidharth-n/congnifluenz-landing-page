@@ -19,8 +19,8 @@ const teamMembers = [
   {
     id: "sidharth",
     name: "Sidharth N",
-    title: "Chief AI Manager",
-    bio: "A recognized expert in machine learning and neural network optimization, Sidharth leads the development of our advanced AI systems with a focus on practical industry applications.",
+    title: "AI Product Lead",
+    bio: "As AI Product Lead, Sidharth drives the strategic integration of AI to enhance product performance and user experience.",
     image: "/sid.png",
     social: {
       linkedin: "https://linkedin.com",

@@ -155,12 +155,21 @@ const ContactPage = () => {
                   </li>
                 </ul>
 
-                {/* Map Placeholder */}
-                <div className="rounded-lg overflow-hidden h-64 bg-gray-200 flex items-center justify-center">
-                  <p className="text-gray-500">
-                    Interactive Map Would Be Displayed Here
-                  </p>
-                </div>
+                {/*
+                {/* Interactive Google Map */}
+                {/* <div className="rounded-lg overflow-hidden h-64">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    frameBorder="0"
+                    scrolling="no"
+                    marginHeight={0}
+                    marginWidth={0}
+                    src="https://maps.google.com/maps?q=TC%2017%2F2962%2F1%2C%20Jetavana%2C%20PLRA%2025B%2C%20Panachamoodu%20Lane%2C%20Pattom%2C%20Thiruvananthapuram%2C%20Kerala%2C%20India%20695004&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                    title="Cognifluenz Location"
+                    aria-label="Cognifluenz Location"
+                  ></iframe>
+                </div> */}
               </div>
             </motion.div>
           </div>
